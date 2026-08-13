@@ -1,24 +1,11 @@
-[
-  {
-    "id": 1,
-    "title": "Cúi Xin Vua Thánh Ngự Lai",
-    "category": "Thờ Phượng - Ngợi Khen",
-    "composer": "Felice de Giardini, 1769",
-    "lyricist": "Charles Wesley, 1757",
-    "key": "G",
-    "sheet": "https://wiki.thuvientinlanh.org/ThanhCa/TCTLVNMN/sheet/1.pdf",
-    "audio": "https://nhac.thuvientinlanh.org/thanhca/mp3/001.mp3",
-    "content": "1. [G]Cúi xin Vua Thánh [D7]ngự lai,\n[G]Giúp chúng con xướng [D]ca danh Ngài;\n[G]Tôn vinh Cha [D7]toàn năng,\n[G]Chúa hiển vinh [C]đời đời,\n[G]Cúi xin Ngài [D7]ngự xuống [G]đây.\n\n2. [G]Cúi xin Ngôi Lời [D7]ngự xuống,\n[G]Nhận lời cầu nguyện [D]của chúng con;\n[G]Ban phước cho [D7]dân Ngài,\n[G]Thánh Hóa tâm [C]hồn chúng con,\n[G]Thần Linh Ngài [D7]ngự trong [G]chúng con.\n\n3. [G]Cúi xin Đấng An [D7]Ủi ngự lai,\n[G]Làm chứng nhân trong [D]lòng chúng con;\n[G]Ngài là Đấng [D7]Toàn Quyền,\n[G]Cai trị trong [C]mọi lòng,\n[G]Thánh Linh Ngài [D7]ngự không rời [G]chúng con.\n\n4. [G]Nguyện Ba Ngôi Thượng [D7]Đế hiển vinh,\n[G]Được tôn vinh muôn [D]đời không ngừng;\n[G]Nguyện muôn loài [D7]trên trời,\n[G]Cùng dưới đất [C]tôn kính Ngài,\n[G]Đến muôn đời [D7]chẳng cùng. [G]A-men."
-  },
-  {
-    "id": 2,
-    "title": "Nguyện Tụng Mỹ Chúa Linh Năng",
-    "category": "Thờ Phượng - Ngợi Khen",
-    "composer": "Joachim Neander, 1680",
-    "lyricist": "Catherine Winkworth, 1863",
-    "key": "G",
-    "sheet": "https://wiki.thuvientinlanh.org/ThanhCa/TCTLVNMN/sheet/2.pdf",
-    "audio": "https://nhac.thuvientinlanh.org/thanhca/mp3/002.mp3",
-    "content": "1. [G]Nguyện tụng mỹ Chúa [D]linh năng [Em]là Vua trên muôn [D]vật,\n[G]Tâm hồn con hỡi [D]mau mau [Em]chúc xướng ơn [D]Ngài;\n[G]Xướng ca [C]rền vang, [G]đến trong [D]đền thánh tôn [G]ngợi,\n[C]Cùng tôn [G]vinh Chúa [D7]hiển vinh [G]đời đời.\n\n2. [G]Nguyện tụng mỹ Chúa, [D]Đấng quản [Em]trị muôn vật rất [D]dịu dàng,\n[G]Chúa nâng đỡ [D]ngươi trên [Em]cánh ưng rất [D]vững vàng;\n[G]Dẫn dắt [C]ngươi luôn, [G]ban phước [D]thỏa nguyện ước [G]mong,\n[C]Ngươi không [G]thấy ơn [D7]Ngài ban [G]sao?\n\n3. [G]Nguyện tụng mỹ Chúa, [D]Đấng đã [Em]dựng nên ngươi thật [D]lạ kỳ,\n[G]Ban cho ngươi [D]sức khỏe, [Em]gìn giữ ngươi [D]mọi lối đi;\n[G]Khi nguy [C]khốn nan, [G]Chúa che [D]chở dưới cánh [G]Thánh Ngài,\n[C]Gửi ơn [G]lành đến [D7]cho ngươi [G]luôn.\n\n4. [G]Nguyện tụng mỹ Chúa! [D]Ôi tâm [Em]hồn con hãy chúc [D]tụng Ngài!\n[G]Thảy đều thở [D]hãy cùng [Em]ngợi ca Chúa [D]đời đời;\n[G]Muôn dân [C]hãy ca, [G]đến trước [D]ngai Ngài chúc [G]tôn,\n[C]A-men [G]vang dậy [D7]khắp không [G]trung."
-  }
-]
+{
+  "id": 1,
+  "title": "Cúi Xin Vua Thánh Ngự Lai",
+  "category": "Thờ Phượng - Ngợi Khen",
+  "composer": "Felice de Giardini (1769)",
+  "lyricist": "Charles Wesley (1757)",
+  "key": "G",
+  "sheet": "https://wiki.thuvientinlanh.org/ThanhCa/TCTLVNMN/sheet/1.pdf",
+  "audio": "https://nhac.thuvientinlanh.org/thanhca/mp3/001.mp3",
+  "content": "1. [G]Cúi xin Vua [C]Thánh [D7]ngự [G]lai,\nHộ tôi cung [Am]chúc danh [D7]Ngài;\n[G]Hát lên khen [Bm]ngợi;\n[D7]Ngợi Cha sáng [G]láng trên trời,\n[D7]Là danh chiến [G]thắng muôn đời,\n[Em]Nguyện quang lâm [Bm]trên chính tôi,\n[C]Chúa thánh [D7]muôn [G]đời.\n\n2. [G]Cúi xin Đạo [C]thể [D7]ngự [G]lai,\nNịt gươm chói [Am]sáng hiển [D7]oai,\n[G]Đoái nghe tôi [Bm]nài;\n[D7]Nguyện ban tứ [G]thánh dân Ngài,\n[D7]Dùng chân lý [G]nuôi tâm hoài,\n[Em]Thần Nhân ôi, [Bm]xin giáng đây,\n[C]Ở chính [D7]tâm [G]này.\n\n3. [G]Đấng Ủy lạo [C]hỡi, [D7]ngự [G]lai,\nNguyện đem thánh [Am]chứng theo [D7]Ngài,\n[G]Chính phút vui [Bm]này;\n[D7]Nguyện xin Thánh [G]Linh năng tài,\n[D7]Quyền thiêng, sức [G]thiêng ai tày,\n[Em]Đầy tâm tôi [Bm]nay, Chúa ôi,\n[C]Quản cai [D7]muôn [G]đời.\n\n4. [G]Hát khen muôn [C]thuở [D7]nào [G]thôi,\nHiệp tôn Chân [Am]Chúa Ba [D7]Ngôi,\n[G]Chúa trên muôn [Bm]loài!\n[D7]Nguyện trông hiển [G]vinh nơi Ngài,\n[D7]Được xem dáng [G]tôn nghiêm hoài,\n[Em]Thờ tôn yêu [Bm]thương Chúa tôi,\n[C]Trải đến [D7]đời [G]đời. A-men."
+}
