@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thánh Ca & Hợp Âm</title>
+    <title>Thánh Ca Tin Lành</title>
     <style>
         :root { --primary: #1e3a8a; --bg: #f8fafc; --card-bg: #ffffff; --text: #1e293b; --chord: #2563eb; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, sans-serif; }
@@ -13,7 +13,7 @@
         .search-box { width: 100%; padding: 12px 16px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 1rem; outline: none; }
         .song-list { margin-top: 15px; }
         .song-item { background: var(--card-bg); padding: 14px; margin-bottom: 10px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
-        .song-num { background: var(--primary); color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .song-num { background: var(--primary); color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem; }
         .song-info { flex: 1; margin-left: 12px; }
         .song-title { font-weight: bold; font-size: 1.05rem; }
         .song-meta { font-size: 0.85rem; color: #64748b; }
@@ -27,11 +27,12 @@
     </style>
 </head>
 <body>
-    <header><h1>Thánh Ca & Hợp Âm</h1></header>
+    <header><h1>Thánh Ca Tin Lành</h1></header>
     <div class="container">
         <input type="text" id="searchInput" class="search-box" placeholder="Tìm số bài hoặc tên bài..." oninput="filterSongs()">
-        <div id="songList" class="song-list"></div>
+        <div id="songList" class="song-list">Đang tải danh sách bài hát...</div>
     </div>
+
     <div id="songModal" class="modal">
         <div class="modal-header">
             <button class="btn-back" onclick="closeSong()">&larr;</button>
@@ -48,45 +49,60 @@
         </div>
         <div class="song-content" id="songBody"></div>
     </div>
+
     <script>
-        const songs = [
-            { id: 1, title: "Tôn Vinh Chân Lý", category: "Tạ Ơn", key: "G", content: "[G]Tôn vinh Chân Lý [C]Chúa Cả [D]quyền năng,\n[G]Ngàn đời xứng đáng [Am]nhận sự [D7]ngợi [G]ca.\n\n[G]Đưa tay dâng Chúa [C]tấm lòng [D]thành kính,\n[G]Thánh danh Ngài [Am]sáng soi [D7]khắp [G]trần gian." },
-            { id: 2, title: "Phước Nguyên Từ Trời", category: "Tôn Vinh", key: "G", content: "[G]Bao phước nguyên từ [D]trời tràn [G]ngập,\nChúa ban [C]xuống cho [D]con người [G]đây.\n[G]Hát xướng lên lòng [D]thành tạ [G]ơn,\nChúc vinh [C]Chúa hiển [D]vinh đời [G]đời." }
-        ];
+        let songs = [];
         let currentSong = null, currentSemitones = 0, currentFontSize = 18, isScrolling = false, scrollInterval = null;
         const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+        fetch('songs.json')
+            .then(res => res.json())
+            .then(data => {
+                songs = data;
+                renderSongList(songs);
+            })
+            .catch(err => {
+                document.getElementById('songList').innerHTML = 'Chưa tải được dữ liệu bài hát.';
+            });
+
         function renderSongList(list) {
-            const container = document.getElementById('songList'); container.innerHTML = '';
+            const container = document.getElementById('songList'); 
+            container.innerHTML = '';
+            if(list.length === 0) { container.innerHTML = 'Không tìm thấy bài hát.'; return; }
             list.forEach(song => {
-                const item = document.createElement('div'); item.className = 'song-item'; item.onclick = () => openSong(song);
-                item.innerHTML = `<div class="song-num">${song.id}</div><div class="song-info"><div class="song-title">${song.title}</div><div class="song-meta">Tông: ${song.key} | ${song.category}</div></div><div>&rsaquo;</div>`;
+                const item = document.createElement('div'); 
+                item.className = 'song-item'; 
+                item.onclick = () => openSong(song);
+                item.innerHTML = `<div class="song-num">${song.id}</div><div class="song-info"><div class="song-title">${song.title}</div><div class="song-meta">Tông gốc: ${song.key} | ${song.category}</div></div><div>&rsaquo;</div>`;
                 container.appendChild(item);
             });
         }
+
         function filterSongs() {
             const q = document.getElementById('searchInput').value.toLowerCase();
             renderSongList(songs.filter(s => s.title.toLowerCase().includes(q) || s.id.toString().includes(q)));
         }
+
         function transposeChord(chord, semitones) {
             return chord.replace(/[A-G][b#]?/g, (m) => notes[(notes.indexOf(m) + semitones + 12) % 12] || m);
         }
+
         function renderContent() {
             if (!currentSong) return;
             let formatted = currentSong.content.replace(/\[(.*?)\]/g, (m, chord) => `<span class="chord">${chord.split('/').map(c => transposeChord(c, currentSemitones)).join('/')}</span>`);
             document.getElementById('songBody').innerHTML = formatted;
             document.getElementById('songBody').style.fontSize = currentFontSize + 'px';
         }
-        function openSong(song) { currentSong = song; currentSemitones = 0; document.getElementById('modalTitle').innerText = `Bài ${song.id}: ${song.title}`; document.getElementById('keyDisplay').innerText = `Tông: ${song.key}`; document.getElementById('songModal').style.display = 'block'; renderContent(); }
+
+        function openSong(song) { currentSong = song; currentSemitones = 0; document.getElementById('modalTitle').innerText = `Bài ${song.id}: ${song.title}`; document.getElementById('keyDisplay').innerText = `Tông gốc: ${song.key}`; document.getElementById('songModal').style.display = 'block'; renderContent(); }
         function closeSong() { document.getElementById('songModal').style.display = 'none'; if (isScrolling) toggleAutoScroll(); }
-        function changeKey(dir) { currentSemitones += dir; document.getElementById('keyDisplay').innerText = `Tông: ${dir >= 0 ? '+' : ''}${currentSemitones}`; renderContent(); }
+        function changeKey(dir) { currentSemitones += dir; document.getElementById('keyDisplay').innerText = `Đổi tông: ${dir >= 0 ? '+' : ''}${currentSemitones}`; renderContent(); }
         function changeFontSize(delta) { currentFontSize += delta; renderContent(); }
         function toggleAutoScroll() {
             const btn = document.getElementById('btnScroll'), modal = document.getElementById('songModal');
             if (!isScrolling) { isScrolling = true; btn.innerText = 'Tự cuộn: BẬT'; scrollInterval = setInterval(() => { modal.scrollTop += 1; }, 50); }
             else { isScrolling = false; btn.innerText = 'Tự cuộn: TẮT'; clearInterval(scrollInterval); }
         }
-        renderSongList(songs);
     </script>
 </body>
-  </html>
-  
+</html>
