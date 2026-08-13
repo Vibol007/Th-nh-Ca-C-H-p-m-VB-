@@ -3,58 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thánh Ca Tin Lành</title>
+    <title>Thánh Ca Tin Lành - HTTLVN</title>
     <style>
-        :root { --primary: #1e3a8a; --bg: #f8fafc; --card-bg: #ffffff; --text: #1e293b; --chord: #2563eb; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, sans-serif; }
-        body { background: var(--bg); color: var(--text); padding-bottom: 30px; }
-        header { background: var(--primary); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; }
-        .container { max-width: 600px; margin: 0 auto; padding: 12px; }
-        .search-box { width: 100%; padding: 12px 16px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 1rem; outline: none; }
+        :root {
+            --primary: #1e3a8a;
+            --primary-dark: #0f172a;
+            --accent: #2563eb;
+            --bg: #f1f5f9;
+            --card: #ffffff;
+            --text: #1e293b;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background: var(--bg); color: var(--text); padding-bottom: 40px; }
+        
+        header { background: var(--primary); color: white; padding: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); sticky: top; z-index: 100; }
+        header h1 { font-size: 1.4rem; font-weight: 700; }
+
+        .container { max-width: 768px; margin: 0 auto; padding: 15px; }
+        
+        .search-box {
+            width: 100%; padding: 14px 18px; border: 2px solid #cbd5e1; border-radius: 12px;
+            font-size: 1rem; outline: none; transition: 0.2s; background: white;
+        }
+        .search-box:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.2); }
+
         .song-list { margin-top: 15px; }
-        .song-item { background: var(--card-bg); padding: 14px; margin-bottom: 10px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
-        .song-num { background: var(--primary); color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem; }
-        .song-info { flex: 1; margin-left: 12px; }
-        .song-title { font-weight: bold; font-size: 1.05rem; }
-        .song-meta { font-size: 0.85rem; color: #64748b; }
+        .song-item {
+            background: var(--card); padding: 15px; margin-bottom: 10px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: space-between; cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: 0.2s;
+        }
+        .song-item:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .song-num {
+            background: var(--primary); color: white; min-width: 42px; height: 42px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 0.95rem;
+        }
+        .song-info { flex: 1; margin-left: 14px; }
+        .song-title { font-weight: bold; font-size: 1.1rem; color: var(--text); }
+        .song-meta { font-size: 0.85rem; color: #64748b; margin-top: 3px; }
+
+        /* Modal Chi Tiết Bài Hát */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 200; overflow-y: auto; }
-        .modal-header { background: var(--primary); color: white; padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; }
-        .btn-back { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
-        .toolbar { background: #f1f5f9; padding: 10px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-        .btn-tool { background: white; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 0.9rem; cursor: pointer; font-weight: bold; }
-        .song-content { padding: 20px 15px; line-height: 2; font-size: 1.1rem; white-space: pre-wrap; }
-        .chord { color: var(--chord); font-weight: bold; background: #dbeafe; padding: 1px 5px; border-radius: 4px; }
+        .modal-header {
+            background: var(--primary); color: white; padding: 12px 15px;
+            display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 210;
+        }
+        .btn-back { background: none; border: none; color: white; font-size: 1.6rem; cursor: pointer; }
+        
+        /* 3 Tabs Giống thanhca.httlvn.org */
+        .tab-nav { display: flex; background: #e2e8f0; border-bottom: 1px solid #cbd5e1; position: sticky; top: 53px; z-index: 205; }
+        .tab-btn {
+            flex: 1; padding: 12px; border: none; background: none; font-weight: bold;
+            font-size: 0.95rem; color: #64748b; cursor: pointer; text-align: center; border-bottom: 3px solid transparent;
+        }
+        .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); background: white; }
+
+        /* Thanh Điều Hướng Chuyển Bài (Trước / Tiếp) */
+        .nav-bar { display: flex; justify-content: space-between; padding: 10px 15px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+        .btn-nav-song { background: white; border: 1px solid #cbd5e1; padding: 6px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.85rem; color: var(--primary); }
+
+        /* Thanh Công Cụ Hợp Âm */
+        .toolbar { background: #f1f5f9; padding: 10px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; border-bottom: 1px solid #e2e8f0; }
+        .btn-tool { background: white; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; font-weight: bold; }
+
+        /* Nội dung Hợp Âm */
+        .tab-content { display: none; padding: 20px 15px; max-width: 700px; margin: 0 auto; }
+        .tab-content.active { display: block; }
+        .song-content { line-height: 2.1; font-size: 1.15rem; white-space: pre-wrap; word-break: break-word; }
+        .chord { color: #2563eb; font-weight: bold; background: #dbeafe; padding: 2px 6px; border-radius: 4px; font-size: 0.95em; }
+
+        /* Sheet Nhạc & Audio Player */
+        .sheet-container { text-align: center; width: 100%; min-height: 500px; }
+        .sheet-iframe { width: 100%; height: 650px; border: none; border-radius: 8px; }
+        .audio-player { width: 100%; margin: 20px 0; border-radius: 30px; }
+        .author-info { font-style: italic; color: #64748b; margin-bottom: 15px; font-size: 0.95rem; line-height: 1.5; }
     </style>
 </head>
 <body>
-    <header><h1>Thánh Ca Tin Lành</h1></header>
+
+    <header>
+        <h1>Thánh Ca Tin Lành</h1>
+    </header>
+
     <div class="container">
-        <input type="text" id="searchInput" class="search-box" placeholder="Tìm số bài hoặc tên bài..." oninput="filterSongs()">
-        <div id="songList" class="song-list">Đang tải danh sách bài hát...</div>
+        <input type="text" id="searchInput" class="search-box" placeholder="Tìm số bài, tên bài hát, tác giả..." oninput="filterSongs()">
+        <div id="songList" class="song-list">Đang tải danh sách...</div>
     </div>
 
+    <!-- Modal Chi Tiết Bài Hát -->
     <div id="songModal" class="modal">
         <div class="modal-header">
             <button class="btn-back" onclick="closeSong()">&larr;</button>
-            <h2 id="modalTitle">Bài Hát</h2>
+            <h2 id="modalTitle" style="font-size:1.1rem;">Bài Hát</h2>
             <div style="width: 24px;"></div>
         </div>
-        <div class="toolbar">
-            <button class="btn-tool" onclick="changeKey(-1)">Tông -</button>
-            <span id="keyDisplay" style="align-self: center; font-weight: bold;">Tông: G</span>
-            <button class="btn-tool" onclick="changeKey(1)">Tông +</button>
-            <button class="btn-tool" onclick="changeFontSize(2)">Chữ A+</button>
-            <button class="btn-tool" onclick="changeFontSize(-2)">Chữ A-</button>
-            <button class="btn-tool" id="btnScroll" onclick="toggleAutoScroll()">Tự cuộn: Tắt</button>
+
+        <!-- 3 Tabs Giống thanhca.httlvn.org -->
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('chords')">🎵 Hợp Âm</button>
+            <button class="tab-btn" onclick="switchTab('sheet')">🎼 Sheet Nhạc</button>
+            <button class="tab-btn" onclick="switchTab('audio')">🎧 Nghe Audio</button>
         </div>
-        <div class="song-content" id="songBody"></div>
+
+        <!-- Thanh Nút Chuyển Bài Trước / Tiếp Theo -->
+        <div class="nav-bar">
+            <button class="btn-nav-song" onclick="navigateSong(-1)">&laquo; Bài Trước</button>
+            <span id="songMetaHeader" style="align-self: center; font-size: 0.85rem; font-weight: bold; color: #475569;"></span>
+            <button class="btn-nav-song" onclick="navigateSong(1)">Bài Tiếp &raquo;</button>
+        </div>
+
+        <!-- TAB 1: HỢP ÂM -->
+        <div id="tab-chords" class="tab-content active">
+            <div class="toolbar">
+                <button class="btn-tool" onclick="changeKey(-1)">Tông -</button>
+                <span id="keyDisplay" style="align-self: center; font-weight: bold; font-size: 0.9rem;">Tông: G</span>
+                <button class="btn-tool" onclick="changeKey(1)">Tông +</button>
+                <button class="btn-tool" onclick="changeFontSize(2)">Chữ A+</button>
+                <button class="btn-tool" onclick="changeFontSize(-2)">Chữ A-</button>
+                <button class="btn-tool" id="btnScroll" onclick="toggleAutoScroll()">Tự cuộn: Tắt</button>
+            </div>
+            <div id="authorBox" class="author-info"></div>
+            <div class="song-content" id="songBody"></div>
+        </div>
+
+        <!-- TAB 2: SHEET NHẠC -->
+        <div id="tab-sheet" class="tab-content">
+            <div class="sheet-container" id="sheetBody">
+                Đang tải Sheet nhạc...
+            </div>
+        </div>
+
+        <!-- TAB 3: NGHE AUDIO -->
+        <div id="tab-audio" class="tab-content">
+            <div style="text-align: center; padding: 20px;">
+                <h3 id="audioTitle" style="margin-bottom: 15px;">Bài Hát Audio</h3>
+                <audio id="audioControl" controls class="audio-player">
+                    Trình duyệt của bạn không hỗ trợ phát audio.
+                </audio>
+            </div>
+        </div>
     </div>
 
     <script>
         let songs = [];
-        let currentSong = null, currentSemitones = 0, currentFontSize = 18, isScrolling = false, scrollInterval = null;
+        let currentSongIndex = -1;
+        let currentSemitones = 0;
+        let currentFontSize = 18;
+        let isScrolling = false;
+        let scrollInterval = null;
+
         const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
+        // Tải dữ liệu JSON
         fetch('songs.json')
             .then(res => res.json())
             .then(data => {
@@ -62,46 +163,156 @@
                 renderSongList(songs);
             })
             .catch(err => {
-                document.getElementById('songList').innerHTML = 'Chưa tải được dữ liệu bài hát.';
+                document.getElementById('songList').innerHTML = 'Chưa tải được danh sách bài hát.';
             });
 
         function renderSongList(list) {
-            const container = document.getElementById('songList'); 
+            const container = document.getElementById('songList');
             container.innerHTML = '';
-            if(list.length === 0) { container.innerHTML = 'Không tìm thấy bài hát.'; return; }
-            list.forEach(song => {
-                const item = document.createElement('div'); 
-                item.className = 'song-item'; 
-                item.onclick = () => openSong(song);
-                item.innerHTML = `<div class="song-num">${song.id}</div><div class="song-info"><div class="song-title">${song.title}</div><div class="song-meta">Tông gốc: ${song.key} | ${song.category}</div></div><div>&rsaquo;</div>`;
+            if (list.length === 0) {
+                container.innerHTML = '<p style="text-align:center; padding:20px; color:#64748b;">Không tìm thấy bài hát nào.</p>';
+                return;
+            }
+            list.forEach((song, idx) => {
+                const item = document.createElement('div');
+                item.className = 'song-item';
+                item.onclick = () => openSongByIndex(idx);
+                item.innerHTML = `
+                    <div class="song-num">${song.id}</div>
+                    <div class="song-info">
+                        <div class="song-title">${song.title}</div>
+                        <div class="song-meta">Tông gốc: <b>${song.key}</b> | ${song.category || 'Thánh Ca'}</div>
+                    </div>
+                    <div style="color:#cbd5e1; font-size:1.4rem;">&rsaquo;</div>
+                `;
                 container.appendChild(item);
             });
         }
 
         function filterSongs() {
             const q = document.getElementById('searchInput').value.toLowerCase();
-            renderSongList(songs.filter(s => s.title.toLowerCase().includes(q) || s.id.toString().includes(q)));
+            const filtered = songs.filter(s => 
+                s.title.toLowerCase().includes(q) || 
+                s.id.toString().includes(q) ||
+                (s.composer && s.composer.toLowerCase().includes(q))
+            );
+            renderSongList(filtered);
+        }
+
+        function openSongByIndex(idx) {
+            if (idx < 0 || idx >= songs.length) return;
+            currentSongIndex = idx;
+            const song = songs[idx];
+            currentSemitones = 0;
+
+            document.getElementById('modalTitle').innerText = `#${song.id} - ${song.title}`;
+            document.getElementById('songMetaHeader').innerText = `Bài ${song.id} / ${songs.length}`;
+            
+            // Cập nhật thông tin tác giả
+            let authorText = '';
+            if (song.composer) authorText += `<b>Nhạc:</b> ${song.composer}<br>`;
+            if (song.lyricist) authorText += `<b>Lời:</b> ${song.lyricist}`;
+            document.getElementById('authorBox').innerHTML = authorText;
+
+            // Mặc định về Tab Hợp Âm
+            switchTab('chords');
+            renderChordsContent();
+
+            // Cập nhật Tab Sheet Nhạc
+            const sheetContainer = document.getElementById('sheetBody');
+            if (song.sheet) {
+                if (song.sheet.endsWith('.pdf')) {
+                    sheetContainer.innerHTML = `<iframe class="sheet-iframe" src="${song.sheet}"></iframe>`;
+                } else {
+                    sheetContainer.innerHTML = `<img src="${song.sheet}" style="max-width:100%; border-radius:8px;" alt="Sheet nhạc">`;
+                }
+            } else {
+                sheetContainer.innerHTML = '<p style="padding:40px; color:#64748b;">Chưa có bản Sheet nhạc cho bài hát này.</p>';
+            }
+
+            // Cập nhật Tab Audio
+            const audioControl = document.getElementById('audioControl');
+            document.getElementById('audioTitle').innerText = song.title;
+            if (song.audio) {
+                audioControl.src = song.audio;
+            } else {
+                audioControl.removeAttribute('src');
+            }
+
+            document.getElementById('songModal').style.display = 'block';
+        }
+
+        function closeSong() {
+            document.getElementById('songModal').style.display = 'none';
+            if (isScrolling) toggleAutoScroll();
+            const audioControl = document.getElementById('audioControl');
+            audioControl.pause();
+        }
+
+        function navigateSong(direction) {
+            let newIndex = currentSongIndex + direction;
+            if (newIndex >= 0 && newIndex < songs.length) {
+                openSongByIndex(newIndex);
+            }
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            if (tabName === 'chords') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('tab-chords').classList.add('active');
+            } else if (tabName === 'sheet') {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('tab-sheet').classList.add('active');
+            } else if (tabName === 'audio') {
+                document.querySelectorAll('.tab-btn')[2].classList.add('active');
+                document.getElementById('tab-audio').classList.add('active');
+            }
         }
 
         function transposeChord(chord, semitones) {
             return chord.replace(/[A-G][b#]?/g, (m) => notes[(notes.indexOf(m) + semitones + 12) % 12] || m);
         }
 
-        function renderContent() {
-            if (!currentSong) return;
-            let formatted = currentSong.content.replace(/\[(.*?)\]/g, (m, chord) => `<span class="chord">${chord.split('/').map(c => transposeChord(c, currentSemitones)).join('/')}</span>`);
-            document.getElementById('songBody').innerHTML = formatted;
-            document.getElementById('songBody').style.fontSize = currentFontSize + 'px';
+        function renderChordsContent() {
+            const song = songs[currentSongIndex];
+            if (!song) return;
+
+            document.getElementById('keyDisplay').innerText = `Tông gốc: ${song.key} (${currentSemitones >= 0 ? '+' : ''}${currentSemitones})`;
+            
+            let formatted = song.content.replace(/\[(.*?)\]/g, (m, chord) => 
+                `<span class="chord">${chord.split('/').map(c => transposeChord(c, currentSemitones)).join('/')}</span>`
+            );
+            
+            const bodyEl = document.getElementById('songBody');
+            bodyEl.innerHTML = formatted;
+            bodyEl.style.fontSize = currentFontSize + 'px';
         }
 
-        function openSong(song) { currentSong = song; currentSemitones = 0; document.getElementById('modalTitle').innerText = `Bài ${song.id}: ${song.title}`; document.getElementById('keyDisplay').innerText = `Tông gốc: ${song.key}`; document.getElementById('songModal').style.display = 'block'; renderContent(); }
-        function closeSong() { document.getElementById('songModal').style.display = 'none'; if (isScrolling) toggleAutoScroll(); }
-        function changeKey(dir) { currentSemitones += dir; document.getElementById('keyDisplay').innerText = `Đổi tông: ${dir >= 0 ? '+' : ''}${currentSemitones}`; renderContent(); }
-        function changeFontSize(delta) { currentFontSize += delta; renderContent(); }
+        function changeKey(dir) {
+            currentSemitones += dir;
+            renderChordsContent();
+        }
+
+        function changeFontSize(delta) {
+            currentFontSize += delta;
+            renderChordsContent();
+        }
+
         function toggleAutoScroll() {
-            const btn = document.getElementById('btnScroll'), modal = document.getElementById('songModal');
-            if (!isScrolling) { isScrolling = true; btn.innerText = 'Tự cuộn: BẬT'; scrollInterval = setInterval(() => { modal.scrollTop += 1; }, 50); }
-            else { isScrolling = false; btn.innerText = 'Tự cuộn: TẮT'; clearInterval(scrollInterval); }
+            const btn = document.getElementById('btnScroll');
+            const modal = document.getElementById('songModal');
+            if (!isScrolling) {
+                isScrolling = true;
+                btn.innerText = 'Tự cuộn: BẬT';
+                scrollInterval = setInterval(() => { modal.scrollTop += 1; }, 50);
+            } else {
+                isScrolling = false;
+                btn.innerText = 'Tự cuộn: TẮT';
+                clearInterval(scrollInterval);
+            }
         }
     </script>
 </body>
